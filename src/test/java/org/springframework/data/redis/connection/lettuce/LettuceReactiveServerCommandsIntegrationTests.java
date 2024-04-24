@@ -157,12 +157,11 @@ public class LettuceReactiveServerCommandsIntegrationTests extends LettuceReacti
 		if (connection instanceof LettuceReactiveRedisClusterConnection) {
 
 			connection.serverCommands().info().as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
+					.consumeNextWith(properties ->
 
 						assertThat(properties) //
 								.containsKey("127.0.0.1:7379.tcp_port") //
-								.containsKey("127.0.0.1:7380.tcp_port");
-					}) //
+								.containsKey("127.0.0.1:7380.tcp_port")) //
 					.verifyComplete();
 		} else {
 
@@ -178,18 +177,16 @@ public class LettuceReactiveServerCommandsIntegrationTests extends LettuceReacti
 		if (connection instanceof LettuceReactiveRedisClusterConnection) {
 
 			connection.serverCommands().info("server").as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
+					.consumeNextWith(properties ->
 						assertThat(properties).isNotEmpty() //
 								.containsKey("127.0.0.1:7379.tcp_port") //
-								.doesNotContainKey("127.0.0.1:7379.role");
-					}) //
+								.doesNotContainKey("127.0.0.1:7379.role")) //
 					.verifyComplete();
 		} else {
 
 			connection.serverCommands().info("server").as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
-						assertThat(properties).containsKey("tcp_port").doesNotContainKey("role");
-					}) //
+					.consumeNextWith(properties ->
+						assertThat(properties).containsKey("tcp_port").doesNotContainKey("role")) //
 					.verifyComplete();
 		}
 	}
@@ -200,16 +197,14 @@ public class LettuceReactiveServerCommandsIntegrationTests extends LettuceReacti
 		if (connection instanceof LettuceReactiveRedisClusterConnection) {
 
 			connection.serverCommands().getConfig("*").as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
-						assertThat(properties).containsEntry("127.0.0.1:7379.port", "7379");
-					}) //
+					.consumeNextWith(properties ->
+						assertThat(properties).containsEntry("127.0.0.1:7379.port", "7379")) //
 					.verifyComplete();
 		} else {
 
 			connection.serverCommands().getConfig("*").as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
-						assertThat(properties).containsEntry("databases", "16");
-					}) //
+					.consumeNextWith(properties ->
+						assertThat(properties).containsEntry("databases", "16")) //
 					.verifyComplete();
 		}
 	}
@@ -250,15 +245,13 @@ public class LettuceReactiveServerCommandsIntegrationTests extends LettuceReacti
 
 			if (connection instanceof LettuceReactiveRedisClusterConnection) {
 				connection.serverCommands().getConfig(slowLogKey).as(StepVerifier::create) //
-						.consumeNextWith(properties -> {
-							assertThat(properties).containsEntry("127.0.0.1:7379." + slowLogKey, "127");
-						}) //
+						.consumeNextWith(properties ->
+							assertThat(properties).containsEntry("127.0.0.1:7379." + slowLogKey, "127")) //
 						.verifyComplete();
 			} else {
 				connection.serverCommands().getConfig(slowLogKey).as(StepVerifier::create) //
-						.consumeNextWith(properties -> {
-							assertThat(properties).containsEntry(slowLogKey, "127");
-						}) //
+						.consumeNextWith(properties ->
+							assertThat(properties).containsEntry(slowLogKey, "127")) //
 						.verifyComplete();
 			}
 		} finally {

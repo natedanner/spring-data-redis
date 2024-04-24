@@ -103,7 +103,7 @@ public abstract class AbstractRedisZSetTestIntegration<T> extends AbstractRedisC
 		zSet.add(t2);
 		zSet.add(t3);
 
-		Double d = new Double("1");
+		Double d = Double.valueOf("1");
 
 		assertThat(zSet.score(t1)).isEqualTo(d);
 		assertThat(zSet.score(t2)).isEqualTo(d);

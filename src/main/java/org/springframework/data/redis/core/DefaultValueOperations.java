@@ -164,7 +164,7 @@ class DefaultValueOperations<K, V> extends AbstractOperations<K, V> implements V
 
 		return execute(connection -> {
 			Long result = connection.append(rawKey, rawString);
-			return (result != null) ? result.intValue() : null;
+			return result != null ? result.intValue() : null;
 		});
 	}
 

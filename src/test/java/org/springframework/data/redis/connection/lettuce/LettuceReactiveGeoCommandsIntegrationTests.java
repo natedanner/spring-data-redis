@@ -207,12 +207,10 @@ public class LettuceReactiveGeoCommandsIntegrationTests extends LettuceReactiveC
 
 		connection.geoCommands().geoRadiusByMember(KEY_1_BBUFFER, ARIGENTO.getName(), new Distance(100, KILOMETERS))
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual.getContent().getName()).isEqualTo(ARIGENTO.getName());
-				}) //
-				.consumeNextWith(actual -> {
-					assertThat(actual.getContent().getName()).isEqualTo(PALERMO.getName());
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual.getContent().getName()).isEqualTo(ARIGENTO.getName())) //
+				.consumeNextWith(actual ->
+					assertThat(actual.getContent().getName()).isEqualTo(PALERMO.getName())) //
 				.expectComplete();
 	}
 

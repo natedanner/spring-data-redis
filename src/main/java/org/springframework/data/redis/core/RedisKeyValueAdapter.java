@@ -117,7 +117,7 @@ public class RedisKeyValueAdapter extends AbstractKeyValueAdapter
 	private @Nullable ApplicationEventPublisher eventPublisher;
 
 	private EnableKeyspaceEvents enableKeyspaceEvents = EnableKeyspaceEvents.OFF;
-	private @Nullable String keyspaceNotificationsConfigParameter = null;
+	private @Nullable String keyspaceNotificationsConfigParameter;
 	private ShadowCopy shadowCopy = ShadowCopy.DEFAULT;
 
 	/**
@@ -802,9 +802,9 @@ public class RedisKeyValueAdapter extends AbstractKeyValueAdapter
 
 			byte[] channelAsBytes = message.getChannel();
 
-			String channel = !ObjectUtils.isEmpty(channelAsBytes)
-					? converter.getConversionService().convert(channelAsBytes, String.class)
-					: null;
+			String channel = ObjectUtils.isEmpty(channelAsBytes)
+					? null
+					: converter.getConversionService().convert(channelAsBytes, String.class);
 
 			RedisKeyExpiredEvent<?> event = new RedisKeyExpiredEvent<>(channel, key, value);
 

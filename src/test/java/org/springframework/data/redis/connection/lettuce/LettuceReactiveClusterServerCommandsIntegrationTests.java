@@ -184,9 +184,8 @@ class LettuceReactiveClusterServerCommandsIntegrationTests extends LettuceReacti
 	void standaloneInfoWithSectionShouldRespondCorrectly() {
 
 		connection.serverCommands().info(NODE1, "server").as(StepVerifier::create) //
-				.consumeNextWith(properties -> {
-					assertThat(properties).containsKey("tcp_port").doesNotContainKey("role");
-				}) //
+				.consumeNextWith(properties ->
+					assertThat(properties).containsKey("tcp_port").doesNotContainKey("role")) //
 				.verifyComplete();
 	}
 
@@ -194,9 +193,8 @@ class LettuceReactiveClusterServerCommandsIntegrationTests extends LettuceReacti
 	void getConfigShouldRespondCorrectly() {
 
 		connection.serverCommands().getConfig(NODE1, "*").as(StepVerifier::create) //
-				.consumeNextWith(properties -> {
-					assertThat(properties).containsEntry("port", NODE1.getPort().toString());
-				}) //
+				.consumeNextWith(properties ->
+					assertThat(properties).containsEntry("port", NODE1.getPort().toString())) //
 				.verifyComplete();
 	}
 
@@ -222,15 +220,13 @@ class LettuceReactiveClusterServerCommandsIntegrationTests extends LettuceReacti
 					.verifyComplete();
 
 			connection.serverCommands().getConfig(NODE1, slowLogKey).as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
-						assertThat(properties).containsEntry(slowLogKey, "127");
-					}) //
+					.consumeNextWith(properties ->
+						assertThat(properties).containsEntry(slowLogKey, "127")) //
 					.verifyComplete();
 
 			connection.serverCommands().getConfig(NODE2, slowLogKey).as(StepVerifier::create) //
-					.consumeNextWith(properties -> {
-						assertThat(properties).containsEntry(slowLogKey, resetValue);
-					}) //
+					.consumeNextWith(properties ->
+						assertThat(properties).containsEntry(slowLogKey, resetValue)) //
 					.verifyComplete();
 		} finally {
 			connection.serverCommands().setConfig(slowLogKey, resetValue).block();

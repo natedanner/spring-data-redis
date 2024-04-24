@@ -153,10 +153,9 @@ public class DefaultReactiveZSetOperationsIntegrationTests<K, V> {
 		zSetOperations.add(key, value1, 42.1).as(StepVerifier::create).expectNext(true).verifyComplete();
 		zSetOperations.add(key, value2, 10).as(StepVerifier::create).expectNext(true).verifyComplete();
 
-		zSetOperations.randomMember(key).as(StepVerifier::create).consumeNextWith(actual -> {
+		zSetOperations.randomMember(key).as(StepVerifier::create).consumeNextWith(actual ->
 
-			assertThat(actual).isIn(value1, value2);
-		}).verifyComplete();
+			assertThat(actual).isIn(value1, value2)).verifyComplete();
 
 		zSetOperations.randomMembers(key, 2).as(StepVerifier::create).expectNextCount(2).verifyComplete();
 		zSetOperations.distinctRandomMembers(key, 2).as(StepVerifier::create).expectNextCount(2).verifyComplete();
@@ -174,10 +173,9 @@ public class DefaultReactiveZSetOperationsIntegrationTests<K, V> {
 		zSetOperations.add(key, value1, 42.1).as(StepVerifier::create).expectNext(true).verifyComplete();
 		zSetOperations.add(key, value2, 10).as(StepVerifier::create).expectNext(true).verifyComplete();
 
-		zSetOperations.randomMemberWithScore(key).as(StepVerifier::create).consumeNextWith(actual -> {
+		zSetOperations.randomMemberWithScore(key).as(StepVerifier::create).consumeNextWith(actual ->
 
-			assertThat(actual).isIn(new DefaultTypedTuple<>(value1, 42.1d), new DefaultTypedTuple<>(value2, 10d));
-		}).verifyComplete();
+			assertThat(actual).isIn(new DefaultTypedTuple<>(value1, 42.1d), new DefaultTypedTuple<>(value2, 10d))).verifyComplete();
 
 		zSetOperations.randomMembersWithScore(key, 2).as(StepVerifier::create).expectNextCount(2).verifyComplete();
 		zSetOperations.distinctRandomMembersWithScore(key, 2).as(StepVerifier::create).expectNextCount(2).verifyComplete();
@@ -839,18 +837,14 @@ public class DefaultReactiveZSetOperationsIntegrationTests<K, V> {
 
 		zSetOperations.union(key, otherKey).as(StepVerifier::create).expectNextCount(3).verifyComplete();
 
-		zSetOperations.unionWithScores(key, otherKey).collectList().as(StepVerifier::create).assertNext(actual -> {
+		zSetOperations.unionWithScores(key, otherKey).collectList().as(StepVerifier::create).assertNext(actual ->
 			assertThat(actual).containsOnly(new DefaultTypedTuple<>(onlyInKey, 10D), new DefaultTypedTuple<>(shared, 22D),
-					new DefaultTypedTuple<>(onlyInOtherKey, 10D));
-
-		}).verifyComplete();
+					new DefaultTypedTuple<>(onlyInOtherKey, 10D))).verifyComplete();
 
 		zSetOperations.unionWithScores(key, Collections.singleton(otherKey), Aggregate.SUM, Weights.of(1, 2)).collectList()
-				.as(StepVerifier::create).assertNext(actual -> {
+				.as(StepVerifier::create).assertNext(actual ->
 					assertThat(actual).containsOnly(new DefaultTypedTuple<>(onlyInKey, 10D), new DefaultTypedTuple<>(shared, 33D),
-							new DefaultTypedTuple<>(onlyInOtherKey, 20D));
-
-				}).verifyComplete();
+							new DefaultTypedTuple<>(onlyInOtherKey, 20D))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602

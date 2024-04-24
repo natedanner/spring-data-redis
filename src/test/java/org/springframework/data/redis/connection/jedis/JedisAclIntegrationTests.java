@@ -47,9 +47,8 @@ class JedisAclIntegrationTests {
 		standaloneConfiguration.setPassword("foobared");
 
 		ConnectionVerifier.create(new JedisConnectionFactory(standaloneConfiguration)) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}) //
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")) //
 				.verifyAndClose();
 	}
 
@@ -61,9 +60,8 @@ class JedisAclIntegrationTests {
 		standaloneConfiguration.setPassword("data");
 
 		ConnectionVerifier.create(new JedisConnectionFactory(standaloneConfiguration)) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}) //
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")) //
 				.verifyAndClose();
 	}
 
@@ -99,9 +97,8 @@ class JedisAclIntegrationTests {
 				JedisClientConfiguration.builder().usePooling().build());
 
 		ConnectionVerifier.create(connectionFactory) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}) //
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")) //
 				.verifyAndClose();
 	}
 }

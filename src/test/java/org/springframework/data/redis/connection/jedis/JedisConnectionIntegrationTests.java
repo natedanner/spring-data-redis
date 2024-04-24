@@ -214,9 +214,8 @@ public class JedisConnectionIntegrationTests extends AbstractConnectionIntegrati
 		final String expectedMessage = "msg";
 		final BlockingDeque<Message> messages = new LinkedBlockingDeque<>();
 
-		MessageListener listener = (message, pattern) -> {
+		MessageListener listener = (message, pattern) ->
 			messages.add(message);
-		};
 
 		Thread t = new Thread() {
 			{
@@ -247,7 +246,7 @@ public class JedisConnectionIntegrationTests extends AbstractConnectionIntegrati
 				Connection.close in teardown
 				will take care of unsubscribing.
 				*/
-				if (!(ConnectionUtils.isAsync(connectionFactory))) {
+				if (!ConnectionUtils.isAsync(connectionFactory)) {
 					connection.getSubscription().unsubscribe();
 				}
 				con.close();
@@ -305,7 +304,7 @@ public class JedisConnectionIntegrationTests extends AbstractConnectionIntegrati
 				// messages may be received if unsubscribing now.
 				// Connection.close in teardown
 				// will take care of unsubscribing.
-				if (!(ConnectionUtils.isAsync(connectionFactory))) {
+				if (!ConnectionUtils.isAsync(connectionFactory)) {
 					connection.getSubscription().pUnsubscribe(expectedPattern.getBytes());
 				}
 			}

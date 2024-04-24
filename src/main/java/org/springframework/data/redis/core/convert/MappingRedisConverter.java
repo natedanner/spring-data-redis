@@ -257,7 +257,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 	@Nullable
 	protected Object readProperty(String path, RedisData source, RedisPersistentProperty persistentProperty) {
 
-		String currentPath = !path.isEmpty() ? path + "." + persistentProperty.getName() : persistentProperty.getName();
+		String currentPath = path.isEmpty() ? persistentProperty.getName() : path + "." + persistentProperty.getName();
 		TypeInformation<?> typeInformation = typeMapper.readType(source.getBucket().getPropertyPath(currentPath),
 				persistentProperty.getTypeInformation());
 
@@ -338,8 +338,8 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 
 		entity.doWithAssociations((AssociationHandler<RedisPersistentProperty>) association -> {
 
-			String currentPath = !path.isEmpty() ? path + "." + association.getInverse().getName()
-					: association.getInverse().getName();
+			String currentPath = path.isEmpty() ? association.getInverse().getName()
+					: path + "." + association.getInverse().getName();
 
 			if (association.getInverse().isCollectionLike()) {
 
@@ -623,7 +623,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 
 		entity.doWithProperties((PropertyHandler<RedisPersistentProperty>) persistentProperty -> {
 
-			String propertyStringPath = (!path.isEmpty() ? path + "." : "") + persistentProperty.getName();
+			String propertyStringPath = (path.isEmpty() ? "" : path + ".") + persistentProperty.getName();
 
 			Object propertyValue = accessor.getProperty(persistentProperty);
 			if (persistentProperty.isIdProperty()) {
@@ -696,7 +696,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 						association.getInverse().getTypeInformation().getRequiredComponentType().getRequiredActualType());
 
 				String keyspace = ref.getKeySpace();
-				String propertyStringPath = (!path.isEmpty() ? path + "." : "") + association.getInverse().getName();
+				String propertyStringPath = (path.isEmpty() ? "" : path + ".") + association.getInverse().getName();
 
 				int i = 0;
 				for (Object o : (Collection<?>) refObject) {
@@ -718,7 +718,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 					Object refId = ref.getPropertyAccessor(refObject).getProperty(ref.getRequiredIdProperty());
 
 					if (refId != null) {
-						String propertyStringPath = (!path.isEmpty() ? path + "." : "") + association.getInverse().getName();
+						String propertyStringPath = (path.isEmpty() ? "" : path + ".") + association.getInverse().getName();
 						sink.getBucket().put(propertyStringPath, toBytes(keyspace + ":" + refId));
 					}
 				}
@@ -747,7 +747,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 				break;
 			}
 
-			String currentPath = path + (path.equals("") ? "" : ".") + "[" + i + "]";
+			String currentPath = path + ("".equals(path) ? "" : ".") + "[" + i + "]";
 
 			if (!ClassUtils.isAssignable(typeHint.getType(), value.getClass())) {
 				throw new MappingException(
@@ -1199,7 +1199,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 	 * @author Stefan Berger
 	 * @since 1.8.10
 	 */
-	public static class KeyspaceIdentifier {
+	public static final class KeyspaceIdentifier {
 
 		public static final String PHANTOM = "phantom";
 		public static final String DELIMITER = ":";
@@ -1279,7 +1279,7 @@ public class MappingRedisConverter implements RedisConverter, InitializingBean {
 	 * @author Stefan Berger
 	 * @since 1.8.10
 	 */
-	public static class BinaryKeyspaceIdentifier {
+	public static final class BinaryKeyspaceIdentifier {
 
 		public static final byte[] PHANTOM = KeyspaceIdentifier.PHANTOM.getBytes();
 		public static final byte DELIMITER = ':';

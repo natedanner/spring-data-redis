@@ -439,9 +439,8 @@ public class LettuceReactiveKeyCommandsIntegrationTests extends LettuceReactiveC
 		nativeCommands.set(KEY_1, "1000");
 		nativeCommands.get(KEY_1);
 
-		connection.keyCommands().idletime(KEY_1_BBUFFER).as(StepVerifier::create).assertNext(actual -> {
-			assertThat(actual).isLessThan(Duration.ofSeconds(5));
-		}).verifyComplete();
+		connection.keyCommands().idletime(KEY_1_BBUFFER).as(StepVerifier::create).assertNext(actual ->
+			assertThat(actual).isLessThan(Duration.ofSeconds(5))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-716

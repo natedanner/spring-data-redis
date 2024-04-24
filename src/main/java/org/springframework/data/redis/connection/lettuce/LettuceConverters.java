@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
@@ -557,29 +558,27 @@ public abstract class LettuceConverters extends Converters {
 				args.keepttl();
 			} else if (!expiration.isPersistent()) {
 
-				switch (expiration.getTimeUnit()) {
-					case MILLISECONDS -> {
-						if (expiration.isUnixTimestamp()) {
-							args.pxAt(expiration.getConverted(TimeUnit.MILLISECONDS));
-						} else {
-							args.px(expiration.getConverted(TimeUnit.MILLISECONDS));
-						}
+				if (expiration.getTimeUnit() == TimeUnit.MILLISECONDS) {
+					if (expiration.isUnixTimestamp()) {
+						args.pxAt(expiration.getConverted(TimeUnit.MILLISECONDS));
+					} else {
+						args.px(expiration.getConverted(TimeUnit.MILLISECONDS));
 					}
-					default -> {
-						if (expiration.isUnixTimestamp()) {
-							args.exAt(expiration.getConverted(TimeUnit.SECONDS));
-						} else {
-							args.ex(expiration.getConverted(TimeUnit.SECONDS));
-						}
+				} else {
+					if (expiration.isUnixTimestamp()) {
+						args.exAt(expiration.getConverted(TimeUnit.SECONDS));
+					} else {
+						args.ex(expiration.getConverted(TimeUnit.SECONDS));
 					}
 				}
 			}
 		}
 
 		if (option != null) {
-			switch (option) {
-				case SET_IF_ABSENT -> args.nx();
-				case SET_IF_PRESENT -> args.xx();
+			if (option == RedisStringCommands.SetOption.SET_IF_ABSENT) {
+				args.nx();
+			} else if (option == RedisStringCommands.SetOption.SET_IF_PRESENT) {
+				args.xx();
 			}
 		}
 
@@ -669,9 +668,10 @@ public abstract class LettuceConverters extends Converters {
 		}
 
 		if (args.hasSortDirection()) {
-			switch (args.getSortDirection()) {
-				case ASC -> geoArgs.asc();
-				case DESC -> geoArgs.desc();
+			if (args.getSortDirection() == Sort.Direction.ASC) {
+				geoArgs.asc();
+			} else if (args.getSortDirection() == Sort.Direction.DESC) {
+				geoArgs.desc();
 			}
 		}
 

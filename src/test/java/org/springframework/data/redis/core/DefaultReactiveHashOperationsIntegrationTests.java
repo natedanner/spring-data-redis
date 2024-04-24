@@ -187,9 +187,8 @@ public class DefaultReactiveHashOperationsIntegrationTests<K, HK, HV> {
 		putAll(key, hashkey1, hashvalue1, hashkey2, hashvalue2);
 
 		hashOperations.multiGet(key, Arrays.asList(hashkey1, hashkey2)).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).hasSize(2).containsSequence(hashvalue1, hashvalue2);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual).hasSize(2).containsSequence(hashvalue1, hashvalue2)) //
 				.verifyComplete();
 	}
 
@@ -201,9 +200,8 @@ public class DefaultReactiveHashOperationsIntegrationTests<K, HK, HV> {
 
 		hashOperations.multiGet(keyFactory.instance(), Arrays.asList(hashKeyFactory.instance(), hashKeyFactory.instance()))
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).hasSize(2).containsSequence(null, null);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual).hasSize(2).containsSequence(null, null)) //
 				.verifyComplete();
 	}
 
@@ -256,15 +254,13 @@ public class DefaultReactiveHashOperationsIntegrationTests<K, HK, HV> {
 
 		hashOperations.randomKey(key) //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).isIn(hashkey1, hashkey2);
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).isIn(hashkey1, hashkey2)).verifyComplete();
 
 		hashOperations.randomKeys(key, -10) //
 				.collectList().as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).hasSize(10);
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).hasSize(10)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // GH-2048
@@ -302,9 +298,8 @@ public class DefaultReactiveHashOperationsIntegrationTests<K, HK, HV> {
 
 		hashOperations.randomEntries(key, -10) //
 				.collectList().as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).hasSize(10);
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).hasSize(10)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602

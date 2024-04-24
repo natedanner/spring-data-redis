@@ -47,15 +47,13 @@ class BoundOperationsProxyFactoryRuntimeHintTests {
 		BoundListOperations listOp = factory.createProxy(BoundListOperations.class, "key", DataType.LIST, template,
 				RedisOperations::opsForList);
 
-		RuntimeHintsInvocations invocations = RuntimeHintsRecorder.record(() -> {
-			listOp.trim(0, 10);
-		});
+		RuntimeHintsInvocations invocations = RuntimeHintsRecorder.record(() ->
+			listOp.trim(0, 10));
 
-		RuntimeHints hints = RedisRuntimeHints.redisHints(it -> {
+		RuntimeHints hints = RedisRuntimeHints.redisHints(it ->
 			// hints that should come from another module
 			it.reflection().registerType(ScopedObject.class,
-					hint -> hint.withMembers(MemberCategory.INVOKE_DECLARED_CONSTRUCTORS));
-		});
+					hint -> hint.withMembers(MemberCategory.INVOKE_DECLARED_CONSTRUCTORS)));
 
 		invocations.assertThat().match(hints);
 	}

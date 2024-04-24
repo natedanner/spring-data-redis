@@ -129,9 +129,8 @@ class ReactiveRedisMessageListenerContainerUnitTests {
 
 		Flux<Message<String, String>> messageStream = container.receive(ChannelTopic.of("foo"));
 
-		messageStream.as(StepVerifier::create).then(() -> {
-			sink.tryEmitNext(createChannelMessage("foo", "message"));
-		}).assertNext(msg -> {
+		messageStream.as(StepVerifier::create).then(() ->
+			sink.tryEmitNext(createChannelMessage("foo", "message"))).assertNext(msg -> {
 
 			assertThat(msg.getChannel()).isEqualTo("foo");
 			assertThat(msg.getMessage()).isEqualTo("message");
@@ -148,9 +147,8 @@ class ReactiveRedisMessageListenerContainerUnitTests {
 
 		Flux<PatternMessage<String, String, String>> messageStream = container.receive(PatternTopic.of("foo*"));
 
-		messageStream.as(StepVerifier::create).then(() -> {
-			sink.tryEmitNext(createPatternMessage("foo*", "foo", "message"));
-		}).assertNext(msg -> {
+		messageStream.as(StepVerifier::create).then(() ->
+			sink.tryEmitNext(createPatternMessage("foo*", "foo", "message"))).assertNext(msg -> {
 
 			assertThat(msg.getPattern()).isEqualTo("foo*");
 			assertThat(msg.getChannel()).isEqualTo("foo");
@@ -242,9 +240,8 @@ class ReactiveRedisMessageListenerContainerUnitTests {
 
 		Flux<PatternMessage<String, String, String>> messageStream = container.receive(PatternTopic.of("foo*"));
 
-		messageStream.as(StepVerifier::create).then(() -> {
-			container.destroy();
-		}).verifyError(CancellationException.class);
+		messageStream.as(StepVerifier::create).then(() ->
+			container.destroy()).verifyError(CancellationException.class);
 	}
 
 	@Test // DATAREDIS-612

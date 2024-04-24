@@ -206,10 +206,9 @@ public class DefaultReactiveStreamOperationsIntegrationTests<K, HK, HV> {
 				.range(key, Range.from(Bound.inclusive(messageId1.getValue())).to(Bound.inclusive(messageId2.getValue())),
 						Limit.limit().count(1)) //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual.getId()).isEqualTo(messageId1);
-				}) //
+					assertThat(actual.getId()).isEqualTo(messageId1)) //
 				.verifyComplete();
 	}
 

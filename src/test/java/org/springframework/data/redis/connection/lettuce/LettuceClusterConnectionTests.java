@@ -159,9 +159,8 @@ public class LettuceClusterConnectionTests implements ClusterConnectionTests {
 		LettuceConnectionFactory factory = createConnectionFactory();
 
 		ConnectionVerifier.create(factory) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}).verifyAndClose();
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")).verifyAndClose();
 	}
 
 	@Test // DATAREDIS-775
@@ -2089,7 +2088,7 @@ public class LettuceClusterConnectionTests implements ClusterConnectionTests {
 	public void sscanShouldRetrieveAllValuesInSetCorrectly() {
 
 		for (int i = 0; i < 30; i++) {
-			nativeConnection.sadd(KEY_1, Integer.valueOf(i).toString());
+			nativeConnection.sadd(KEY_1, Integer.toString(i));
 		}
 
 		int count = 0;

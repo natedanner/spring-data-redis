@@ -57,9 +57,8 @@ class LettuceAclIntegrationTests {
 				clientConfiguration);
 
 		ConnectionVerifier.create(connectionFactory) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}) //
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")) //
 				.verifyAndClose();
 	}
 
@@ -77,9 +76,8 @@ class LettuceAclIntegrationTests {
 				clientConfiguration);
 
 		ConnectionVerifier.create(connectionFactory) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}) //
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")) //
 				.verifyAndClose();
 	}
 
@@ -122,9 +120,8 @@ class LettuceAclIntegrationTests {
 				clientConfiguration);
 
 		ConnectionVerifier.create(connectionFactory) //
-				.execute(connection -> {
-					assertThat(connection.ping()).isEqualTo("PONG");
-				}) //
+				.execute(connection ->
+					assertThat(connection.ping()).isEqualTo("PONG")) //
 				.verifyAndClose();
 	}
 }

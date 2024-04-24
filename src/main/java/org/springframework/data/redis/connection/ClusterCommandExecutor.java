@@ -685,7 +685,7 @@ public class ClusterCommandExecutor implements DisposableBean {
 	 * @author Christoph Strobl
 	 * @since 2.0.3
 	 */
-	private static class PositionalKey {
+	private static final class PositionalKey {
 
 		private final ByteArrayWrapper key;
 		private final int position;
@@ -721,8 +721,9 @@ public class ClusterCommandExecutor implements DisposableBean {
 				return true;
 			}
 
-			if (!(obj instanceof PositionalKey that))
+			if (!(obj instanceof PositionalKey that)) {
 				return false;
+			}
 
 			return this.getPosition() == that.getPosition() && ObjectUtils.nullSafeEquals(this.getKey(), that.getKey());
 		}
@@ -742,7 +743,7 @@ public class ClusterCommandExecutor implements DisposableBean {
 	 * @author Christoph Strobl
 	 * @since 2.0.3
 	 */
-	private static class PositionalKeys implements Iterable<PositionalKey> {
+	private static final class PositionalKeys implements Iterable<PositionalKey> {
 
 		private final List<PositionalKey> keys;
 

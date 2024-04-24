@@ -144,7 +144,7 @@ public class LettuceConnectionIntegrationTests extends AbstractConnectionIntegra
 
 	@Test
 	public void testSelect() {
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() -> super.testSelect());
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(super::testSelect);
 	}
 
 	@Test

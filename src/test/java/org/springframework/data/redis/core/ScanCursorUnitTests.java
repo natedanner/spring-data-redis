@@ -236,7 +236,7 @@ class ScanCursorUnitTests {
 	@Test // GH-2414
 	void shouldCloseCursorOnScanFailure() {
 
-		KeyBoundCursor<String> cursor = new KeyBoundCursor<String>("foo".getBytes(), Cursor.CursorId.initial(), null) {
+		KeyBoundCursor<String> cursor = new KeyBoundCursor<>("foo".getBytes(), Cursor.CursorId.initial(), null) {
 			@Override
 			protected ScanIteration<String> doScan(byte[] key, CursorId cursorId, ScanOptions options) {
 				throw new IllegalStateException();

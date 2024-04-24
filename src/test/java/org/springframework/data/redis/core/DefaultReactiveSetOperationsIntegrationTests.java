@@ -108,9 +108,8 @@ public class DefaultReactiveSetOperationsIntegrationTests<K, V> {
 		V value2 = valueFactory.instance();
 
 		setOperations.add(key, value1, value2).as(StepVerifier::create).expectNext(2L).verifyComplete();
-		setOperations.pop(key).as(StepVerifier::create).consumeNextWith(actual -> {
-			assertThat(actual).isIn(value1, value2);
-		}).verifyComplete();
+		setOperations.pop(key).as(StepVerifier::create).consumeNextWith(actual ->
+			assertThat(actual).isIn(value1, value2)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-668
@@ -166,10 +165,9 @@ public class DefaultReactiveSetOperationsIntegrationTests<K, V> {
 		V value2 = valueFactory.instance();
 
 		setOperations.add(key, value1).as(StepVerifier::create).expectNext(1L).verifyComplete();
-		setOperations.isMember(key, value1, value2).as(StepVerifier::create).consumeNextWith(actual -> {
+		setOperations.isMember(key, value1, value2).as(StepVerifier::create).consumeNextWith(actual ->
 
-			assertThat(actual).containsEntry(value1, true).containsEntry(value2, false);
-		}).verifyComplete();
+			assertThat(actual).containsEntry(value1, true).containsEntry(value2, false)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602, DATAREDIS-873
@@ -188,15 +186,13 @@ public class DefaultReactiveSetOperationsIntegrationTests<K, V> {
 		setOperations.add(otherKey, onlyInOtherKey, shared).as(StepVerifier::create).expectNext(2L).verifyComplete();
 
 		setOperations.intersect(key, otherKey).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).isEqualTo(shared);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual).isEqualTo(shared)) //
 				.verifyComplete();
 
 		setOperations.intersect(Arrays.asList(key, otherKey)).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).isEqualTo(shared);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual).isEqualTo(shared)) //
 				.verifyComplete();
 	}
 
@@ -243,15 +239,13 @@ public class DefaultReactiveSetOperationsIntegrationTests<K, V> {
 		setOperations.add(otherKey, onlyInOtherKey, shared).as(StepVerifier::create).expectNext(2L).verifyComplete();
 
 		setOperations.difference(key, otherKey).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).isEqualTo(onlyInKey);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual).isEqualTo(onlyInKey)) //
 				.verifyComplete();
 
 		setOperations.difference(Arrays.asList(key, otherKey)).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual).isEqualTo(onlyInKey);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual).isEqualTo(onlyInKey)) //
 				.verifyComplete();
 	}
 
@@ -374,9 +368,8 @@ public class DefaultReactiveSetOperationsIntegrationTests<K, V> {
 
 		setOperations.add(key, value1, value2).as(StepVerifier::create).expectNext(2L).verifyComplete();
 
-		setOperations.randomMember(key).as(StepVerifier::create).consumeNextWith(actual -> {
-			assertThat(actual).isIn(value1, value2);
-		}).verifyComplete();
+		setOperations.randomMember(key).as(StepVerifier::create).consumeNextWith(actual ->
+			assertThat(actual).isIn(value1, value2)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602

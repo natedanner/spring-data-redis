@@ -195,9 +195,8 @@ public class DefaultRedisCacheWriterTests {
 
 		assertThat(writer.putIfAbsent(CACHE_NAME, binaryCacheKey, binaryCacheValue, Duration.ZERO)).isNull();
 
-		doWithConnection(connection -> {
-			assertThat(connection.get(binaryCacheKey)).isEqualTo(binaryCacheValue);
-		});
+		doWithConnection(connection ->
+			assertThat(connection.get(binaryCacheKey)).isEqualTo(binaryCacheValue));
 
 		assertThat(writer.getCacheStatistics(CACHE_NAME).getPuts()).isOne();
 	}
@@ -213,9 +212,8 @@ public class DefaultRedisCacheWriterTests {
 		assertThat(writer.putIfAbsent(CACHE_NAME, binaryCacheKey, "foo".getBytes(), Duration.ZERO))
 				.isEqualTo(binaryCacheValue);
 
-		doWithConnection(connection -> {
-			assertThat(connection.get(binaryCacheKey)).isEqualTo(binaryCacheValue);
-		});
+		doWithConnection(connection ->
+			assertThat(connection.get(binaryCacheKey)).isEqualTo(binaryCacheValue));
 
 		assertThat(writer.getCacheStatistics(CACHE_NAME).getPuts()).isZero();
 	}
@@ -228,9 +226,8 @@ public class DefaultRedisCacheWriterTests {
 
 		assertThat(writer.putIfAbsent(CACHE_NAME, binaryCacheKey, binaryCacheValue, Duration.ofSeconds(5))).isNull();
 
-		doWithConnection(connection -> {
-			assertThat(connection.ttl(binaryCacheKey)).isGreaterThan(3).isLessThan(6);
-		});
+		doWithConnection(connection ->
+			assertThat(connection.ttl(binaryCacheKey)).isGreaterThan(3).isLessThan(6));
 
 		assertThat(writer.getCacheStatistics(CACHE_NAME).getPuts()).isOne();
 	}
@@ -278,9 +275,8 @@ public class DefaultRedisCacheWriterTests {
 
 		nonLockingRedisCacheWriter(connectionFactory).put(CACHE_NAME, binaryCacheKey, binaryCacheValue, Duration.ZERO);
 
-		doWithConnection(connection -> {
-			assertThat(connection.exists(binaryCacheKey)).isTrue();
-		});
+		doWithConnection(connection ->
+			assertThat(connection.exists(binaryCacheKey)).isTrue());
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-481
@@ -291,9 +287,8 @@ public class DefaultRedisCacheWriterTests {
 		lockingRedisCacheWriter(connectionFactory).put(CACHE_NAME + "-no-the-other-cache", binaryCacheKey, binaryCacheValue,
 				Duration.ZERO);
 
-		doWithConnection(connection -> {
-			assertThat(connection.exists(binaryCacheKey)).isTrue();
-		});
+		doWithConnection(connection ->
+			assertThat(connection.exists(binaryCacheKey)).isTrue());
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-481, DATAREDIS-1082
@@ -320,16 +315,14 @@ public class DefaultRedisCacheWriterTests {
 
 			Thread.sleep(200);
 
-			doWithConnection(connection -> {
-				assertThat(connection.exists(binaryCacheKey)).isFalse();
-			});
+			doWithConnection(connection ->
+				assertThat(connection.exists(binaryCacheKey)).isFalse());
 
 			writer.unlock(CACHE_NAME);
 			afterWrite.await();
 
-			doWithConnection(connection -> {
-				assertThat(connection.exists(binaryCacheKey)).isTrue();
-			});
+			doWithConnection(connection ->
+				assertThat(connection.exists(binaryCacheKey)).isTrue());
 
 			assertThat(writer.getCacheStatistics(CACHE_NAME).getLockWaitDuration(TimeUnit.NANOSECONDS)).isGreaterThan(0);
 

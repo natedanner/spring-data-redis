@@ -81,28 +81,35 @@ public class Address implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
-		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + (number == null ? 0 : number.hashCode());
+		result = prime * result + (street == null ? 0 : street.hashCode());
 		return result;
 	}
 
 	public boolean equals(@Nullable Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Address that))
+		}
+		if (!(obj instanceof Address that)) {
 			return false;
+		}
 		if (number == null) {
-			if (that.number != null)
+			if (that.number != null) {
 				return false;
-		} else if (!number.equals(that.number))
+			}
+		} else if (!number.equals(that.number)) {
 			return false;
+		}
 		if (street == null) {
-			if (that.street != null)
+			if (that.street != null) {
 				return false;
-		} else if (!street.equals(that.street))
+			}
+		} else if (!street.equals(that.street)) {
 			return false;
+		}
 		return true;
 	}
 }

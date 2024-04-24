@@ -197,7 +197,7 @@ class ReversedRedisListView<E> implements RedisList<E> {
 		ListIterator<?> thatListIterator = that.listIterator();
 
 		while (thisListIterator.hasNext() && thatListIterator.hasNext()) {
-			if (!(Objects.equals(thisListIterator.next(), thatListIterator.next()))) {
+			if (!Objects.equals(thisListIterator.next(), thatListIterator.next())) {
 				return false;
 			}
 		}

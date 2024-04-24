@@ -30,7 +30,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
  * @author Thomas Darimont
  * @author Christoph Strobl
  */
-abstract public class AbstractConnectionTransactionIntegrationTests extends AbstractConnectionIntegrationTests {
+public abstract class AbstractConnectionTransactionIntegrationTests extends AbstractConnectionIntegrationTests {
 
 	@Test
 	@Override

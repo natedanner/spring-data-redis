@@ -71,7 +71,7 @@ public interface Cursor<T> extends CloseableIterator<T> {
 	 */
 	abstract class CursorId {
 
-		private final static CursorId INITIAL = new CursorId() {
+		private static final CursorId INITIAL = new CursorId() {
 			@Override
 			public String getCursorId() {
 				return "0";

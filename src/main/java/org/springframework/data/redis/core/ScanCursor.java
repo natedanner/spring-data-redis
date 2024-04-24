@@ -327,6 +327,6 @@ public abstract class ScanCursor<T> implements Cursor<T> {
 	 * @author Thomas Darimont
 	 */
 	enum CursorState {
-		READY, OPEN, FINISHED, CLOSED;
+		READY, OPEN, FINISHED, CLOSED
 	}
 }

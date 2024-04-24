@@ -146,9 +146,8 @@ class LettuceReactiveSubscriptionUnitTests {
 
 			sink.tryEmitNext(createChannelMessage("other", "body"));
 			sink.tryEmitNext(createChannelMessage("foo", "body"));
-		}).assertNext(msg -> {
-			assertThat(msg.getChannel()).isEqualTo(getByteBuffer("foo"));
-		}).thenCancel().verify();
+		}).assertNext(msg ->
+			assertThat(msg.getChannel()).isEqualTo(getByteBuffer("foo"))).thenCancel().verify();
 	}
 
 	@Test // DATAREDIS-612
@@ -184,10 +183,9 @@ class LettuceReactiveSubscriptionUnitTests {
 		when(commandsMock.observeChannels()).thenReturn(sink.asFlux());
 		when(commandsMock.observePatterns()).thenReturn(Flux.empty());
 
-		subscription.receive().as(StepVerifier::create).then(() -> {
+		subscription.receive().as(StepVerifier::create).then(() ->
 
-			sink.tryEmitError(new RedisConnectionException("foo"));
-		}).expectError(RedisSystemException.class).verify();
+			sink.tryEmitError(new RedisConnectionException("foo"))).expectError(RedisSystemException.class).verify();
 	}
 
 	@Test // DATAREDIS-612
@@ -200,9 +198,8 @@ class LettuceReactiveSubscriptionUnitTests {
 		when(commandsMock.observeChannels()).thenReturn(Flux.never());
 		when(commandsMock.observePatterns()).thenReturn(Flux.never());
 
-		subscription.receive().as(StepVerifier::create).then(() -> {
-			subscription.cancel().subscribe();
-		}).expectError(CancellationException.class).verify();
+		subscription.receive().as(StepVerifier::create).then(() ->
+			subscription.cancel().subscribe()).expectError(CancellationException.class).verify();
 
 		assertThat(subscription.getPatterns()).isEmpty();
 	}

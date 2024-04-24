@@ -134,7 +134,7 @@ public abstract class Converters {
 	}
 
 	public static byte[] toBit(Boolean source) {
-		return (source ? ONE : ZERO);
+		return source ? ONE : ZERO;
 	}
 
 	/**

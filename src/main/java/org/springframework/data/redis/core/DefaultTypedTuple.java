@@ -54,40 +54,47 @@ public class DefaultTypedTuple<V> implements TypedTuple<V> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((score == null) ? 0 : score.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + (score == null ? 0 : score.hashCode());
+		result = prime * result + (value == null ? 0 : value.hashCode());
 		return result;
 	}
 
 	public boolean equals(@Nullable Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof DefaultTypedTuple<?> other))
+		}
+		if (!(obj instanceof DefaultTypedTuple<?> other)) {
 			return false;
+		}
 		if (score == null) {
-			if (other.score != null)
+			if (other.score != null) {
 				return false;
-		} else if (!score.equals(other.score))
+			}
+		} else if (!score.equals(other.score)) {
 			return false;
+		}
 		if (value == null) {
-			if (other.value != null)
+			if (other.value != null) {
 				return false;
+			}
 		} else if (value instanceof byte[] bytes) {
 			if (!(other.value instanceof byte[] otherBytes)) {
 				return false;
 			}
 			return Arrays.equals(bytes, otherBytes);
-		} else if (!value.equals(other.value))
+		} else if (!value.equals(other.value)) {
 			return false;
+		}
 		return true;
 	}
 
 	public int compareTo(Double o) {
 
-		double thisScore = (score == null ? 0.0 : score);
-		double otherScore = (o == null ? 0.0 : o);
+		double thisScore = score == null ? 0.0 : score;
+		double otherScore = o == null ? 0.0 : o;
 
 		return Double.compare(thisScore, otherScore);
 	}

@@ -104,11 +104,9 @@ public class LettuceReactiveHashCommandsIntegrationTests extends LettuceReactive
 
 		connection.hashCommands().hMGet(KEY_1_BBUFFER, Arrays.asList(FIELD_1_BBUFFER, FIELD_3_BBUFFER))
 				.as(StepVerifier::create)
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual).contains(VALUE_1_BBUFFER, VALUE_3_BBUFFER);
-
-				}).verifyComplete();
+					assertThat(actual).contains(VALUE_1_BBUFFER, VALUE_3_BBUFFER)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-525, GH-2210
@@ -244,9 +242,8 @@ public class LettuceReactiveHashCommandsIntegrationTests extends LettuceReactive
 		expected.put(FIELD_3_BBUFFER, VALUE_3_BBUFFER);
 
 		connection.hashCommands().hGetAll(KEY_1_BBUFFER).buffer(3).as(StepVerifier::create) //
-				.consumeNextWith(list -> {
-					assertThat(list.containsAll(expected.entrySet())).isTrue();
-				}) //
+				.consumeNextWith(list ->
+					assertThat(list.containsAll(expected.entrySet())).isTrue()) //
 				.verifyComplete();
 	}
 

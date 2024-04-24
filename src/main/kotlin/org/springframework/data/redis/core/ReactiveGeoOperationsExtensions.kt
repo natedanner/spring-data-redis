@@ -137,7 +137,11 @@ suspend fun <K : Any, M : Any> ReactiveGeoOperations<K, M>.positionAndAwait(key:
  * @since 2.2
  */
 fun <K : Any, M : Any> ReactiveGeoOperations<K, M>.radiusAsFlow(key: K, within: Circle, args: GeoRadiusCommandArgs? = null): Flow<GeoResult<GeoLocation<M>>> =
-		(if (args != null) radius(key, within, args) else radius(key, within)).asFlow()
+		(if (args != null) {
+			radius(key, within, args)
+		} else {
+			radius(key, within)
+		}).asFlow()
 
 
 /**
@@ -156,7 +160,11 @@ fun <K : Any, M : Any> ReactiveGeoOperations<K, M>.radiusAsFlow(key: K, member: 
  * @since 2.2
  */
 fun <K : Any, M : Any> ReactiveGeoOperations<K, M>.radiusAsFlow(key: K, member: M, distance: Distance, args: GeoRadiusCommandArgs? = null): Flow<GeoResult<GeoLocation<M>>> =
-		(if (args != null) radius(key, member, distance, args) else radius(key, member, distance)).asFlow()
+		(if (args != null) {
+			radius(key, member, distance, args)
+		} else {
+			radius(key, member, distance)
+		}).asFlow()
 
 /**
  * Coroutines variant of [ReactiveGeoOperations.remove].

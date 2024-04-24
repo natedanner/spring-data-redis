@@ -88,9 +88,8 @@ class LettuceClusterKeyspaceNotificationsTests {
 	void tearDown() {
 
 		// Restore previous settings.
-		withConnection("127.0.0.1", 7381, commands -> {
-			commands.configSet("notify-keyspace-events", keyspaceConfig);
-		});
+		withConnection("127.0.0.1", 7381, commands ->
+			commands.configSet("notify-keyspace-events", keyspaceConfig));
 	}
 
 	@AfterAll
@@ -105,13 +104,11 @@ class LettuceClusterKeyspaceNotificationsTests {
 
 		RedisClusterConnection connection = factory.getClusterConnection();
 
-		connection.pSubscribe((message, pattern) -> {
-			expiry.complete(new String(message.getBody()) + ":" + new String(message.getChannel()));
-		}, "__keyspace*@*".getBytes());
+		connection.pSubscribe((message, pattern) ->
+			expiry.complete(new String(message.getBody()) + ":" + new String(message.getChannel())), "__keyspace*@*".getBytes());
 
-		withConnection("127.0.0.1", 7381, commands -> {
-			commands.set(key, "foo", SetArgs.Builder.px(1));
-		});
+		withConnection("127.0.0.1", 7381, commands ->
+			commands.set(key, "foo", SetArgs.Builder.px(1)));
 
 		assertThat(expiry.get(2, TimeUnit.SECONDS)).isEqualTo("expired:__keyspace@0__:10923");
 

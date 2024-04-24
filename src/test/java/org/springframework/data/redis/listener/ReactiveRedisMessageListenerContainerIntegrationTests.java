@@ -358,9 +358,8 @@ public class ReactiveRedisMessageListenerContainerIntegrationTests {
 
 	private static Runnable awaitSubscription(Supplier<Collection<ReactiveSubscription>> activeSubscriptions) {
 
-		return () -> {
+		return () ->
 			Awaitility.await().until(() -> !activeSubscriptions.get().isEmpty());
-		};
 	}
 
 	interface CompositeListener extends MessageListener, SubscriptionListener {

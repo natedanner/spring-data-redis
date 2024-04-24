@@ -140,10 +140,9 @@ public class DefaultReactiveValueOperationsIntegrationTests<K, V> {
 				.verifyComplete();
 
 		redisTemplate.getExpire(key).as(StepVerifier::create) //
-				.assertNext(actual -> {
+				.assertNext(actual ->
 
-					assertThat(actual).isBetween(Duration.ofMillis(1), Duration.ofSeconds(5));
-				}).verifyComplete();
+					assertThat(actual).isBetween(Duration.ofMillis(1), Duration.ofSeconds(5))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602, DATAREDIS-779
@@ -180,10 +179,9 @@ public class DefaultReactiveValueOperationsIntegrationTests<K, V> {
 		valueOperations.get(key).as(StepVerifier::create).expectNext(laterValue).verifyComplete();
 
 		redisTemplate.getExpire(key).as(StepVerifier::create) //
-				.assertNext(actual -> {
+				.assertNext(actual ->
 
-					assertThat(actual).isBetween(Duration.ofMillis(1), Duration.ofSeconds(5));
-				}).verifyComplete();
+					assertThat(actual).isBetween(Duration.ofMillis(1), Duration.ofSeconds(5))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602

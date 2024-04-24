@@ -334,10 +334,9 @@ public class LettuceReactiveStreamCommandsIntegrationTests extends LettuceReacti
 				.verifyComplete();
 
 		connection.streamCommands().xPending(KEY_1_BBUFFER, "my-group", "my-consumer-2", Range.open("-", "+"), 10L)
-				.as(StepVerifier::create).assertNext(it -> {
+				.as(StepVerifier::create).assertNext(it ->
 
-					assertThat(it.size()).isZero();
-				}).verifyComplete();
+					assertThat(it.size()).isZero()).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-1084
@@ -349,9 +348,8 @@ public class LettuceReactiveStreamCommandsIntegrationTests extends LettuceReacti
 		nativeCommands.xadd(KEY_1, KEY_2, VALUE_2);
 
 		connection.streamCommands().xPending(KEY_1_BBUFFER, "my-group", Range.open("-", "+"), 10L).as(StepVerifier::create)
-				.assertNext(it -> {
-					assertThat(it.isEmpty()).isTrue();
-				}).verifyComplete();
+				.assertNext(it ->
+					assertThat(it.isEmpty()).isTrue()).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-1084
@@ -366,10 +364,8 @@ public class LettuceReactiveStreamCommandsIntegrationTests extends LettuceReacti
 				.xReadGroup(Consumer.from("my-group", "my-consumer"),
 						StreamOffset.create(KEY_1_BBUFFER, ReadOffset.lastConsumed())) //
 				.delayElements(Duration.ofMillis(5)).next() //
-				.flatMapMany(record -> {
-					return connection.streamCommands().xClaim(KEY_1_BBUFFER, "my-group", "my-consumer",
-							XClaimOptions.minIdle(Duration.ofMillis(1)).ids(record.getId()));
-				}
+				.flatMapMany(record -> connection.streamCommands().xClaim(KEY_1_BBUFFER, "my-group", "my-consumer",
+							XClaimOptions.minIdle(Duration.ofMillis(1)).ids(record.getId()))
 
 				).as(StepVerifier::create) //
 				.assertNext(it -> assertThat(it.getId().getValue()).isEqualTo(expected)) //

@@ -92,9 +92,8 @@ public class LettuceSubscription extends AbstractSubscription {
 			// that we receive pub/sub confirmations before the PING response.
 			futures.add(pubSubAsync.ping().toCompletableFuture());
 
-			CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).whenComplete((v, t) -> {
-				connection.removeListener(listener);
-			});
+			CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).whenComplete((v, t) ->
+				connection.removeListener(listener));
 		} else {
 			connection.removeListener(listener);
 		}

@@ -31,7 +31,7 @@ import org.springframework.lang.Nullable;
  * @author Christoph Strobl
  * @since 2.0
  */
-class ScriptUtils {
+final class ScriptUtils {
 
 	private ScriptUtils() {}
 

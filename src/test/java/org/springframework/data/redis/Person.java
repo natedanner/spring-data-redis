@@ -84,40 +84,51 @@ public class Person implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((age == null) ? 0 : age.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + (address == null ? 0 : address.hashCode());
+		result = prime * result + (age == null ? 0 : age.hashCode());
+		result = prime * result + (firstName == null ? 0 : firstName.hashCode());
+		result = prime * result + (lastName == null ? 0 : lastName.hashCode());
 		return result;
 	}
 
 	public boolean equals(@Nullable Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Person that))
+		}
+		if (!(obj instanceof Person that)) {
 			return false;
+		}
 		if (address == null) {
-			if (that.address != null)
+			if (that.address != null) {
 				return false;
-		} else if (!address.equals(that.address))
+			}
+		} else if (!address.equals(that.address)) {
 			return false;
+		}
 		if (age == null) {
-			if (that.age != null)
+			if (that.age != null) {
 				return false;
-		} else if (!age.equals(that.age))
+			}
+		} else if (!age.equals(that.age)) {
 			return false;
+		}
 		if (firstName == null) {
-			if (that.firstName != null)
+			if (that.firstName != null) {
 				return false;
-		} else if (!firstName.equals(that.firstName))
+			}
+		} else if (!firstName.equals(that.firstName)) {
 			return false;
+		}
 		if (lastName == null) {
-			if (that.lastName != null)
+			if (that.lastName != null) {
 				return false;
-		} else if (!lastName.equals(that.lastName))
+			}
+		} else if (!lastName.equals(that.lastName)) {
 			return false;
+		}
 		return true;
 	}
 }

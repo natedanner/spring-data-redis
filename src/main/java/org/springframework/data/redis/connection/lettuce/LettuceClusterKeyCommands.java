@@ -17,6 +17,7 @@ package org.springframework.data.redis.connection.lettuce;
 
 import io.lettuce.core.KeyScanCursor;
 import io.lettuce.core.ScanArgs;
+import io.lettuce.core.api.sync.RedisKeyCommands;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -141,7 +142,7 @@ class LettuceClusterKeyCommands extends LettuceKeyCommands {
 	public byte[] randomKey(RedisClusterNode node) {
 
 		return connection.getClusterCommandExecutor()
-				.executeCommandOnSingleNode((LettuceClusterCommandCallback<byte[]>) client -> client.randomkey(), node)
+				.executeCommandOnSingleNode((LettuceClusterCommandCallback<byte[]>) RedisKeyCommands::randomkey, node)
 				.getValue();
 	}
 
@@ -169,9 +170,7 @@ class LettuceClusterKeyCommands extends LettuceKeyCommands {
 		Assert.notNull(options, "Options must not be null");
 
 		return connection.getClusterCommandExecutor()
-				.executeCommandOnSingleNode((LettuceClusterCommandCallback<ScanCursor<byte[]>>) client -> {
-
-					return new LettuceScanCursor<byte[]>(options) {
+				.executeCommandOnSingleNode((LettuceClusterCommandCallback<ScanCursor<byte[]>>) client -> new LettuceScanCursor<byte[]>(options) {
 
 						@Override
 						protected LettuceScanIteration<byte[]> doScan(io.lettuce.core.ScanCursor cursor, ScanOptions options) {
@@ -182,9 +181,7 @@ class LettuceClusterKeyCommands extends LettuceKeyCommands {
 							return new LettuceScanIteration<>(keyScanCursor, keyScanCursor.getKeys());
 						}
 
-					}.open();
-
-				}, node).getValue();
+					}.open(), node).getValue();
 	}
 
 	@Override

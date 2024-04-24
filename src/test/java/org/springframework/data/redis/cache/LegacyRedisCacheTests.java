@@ -355,11 +355,10 @@ public class LegacyRedisCacheTests {
 
 		Object key = getKey();
 
-		assertThatExceptionOfType(ValueRetrievalException.class).isThrownBy(() -> {
+		assertThatExceptionOfType(ValueRetrievalException.class).isThrownBy(() ->
 			cache.get(key, () -> {
 				throw new RuntimeException("doh");
-			});
-		});
+			}));
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-553

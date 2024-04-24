@@ -125,7 +125,7 @@ public class JedisConnection extends AbstractRedisConnection {
 	private final JedisStringCommands stringCommands = new JedisStringCommands(this);
 	private final JedisZSetCommands zSetCommands = new JedisZSetCommands(this);
 
-	private final Log LOGGER = LogFactory.getLog(getClass());
+	private final Log logger = LogFactory.getLog(getClass());
 
 	@SuppressWarnings("rawtypes")
 	private List<JedisResult> pipelinedResults = new ArrayList<>();
@@ -484,9 +484,9 @@ public class JedisConnection extends AbstractRedisConnection {
 
 			List<Object> results = transaction.exec();
 
-			return !CollectionUtils.isEmpty(results)
-					? new TransactionResultConverter<>(txResults, JedisExceptionConverter.INSTANCE).convert(results)
-					: results;
+			return CollectionUtils.isEmpty(results)
+					? results
+					: new TransactionResultConverter<>(txResults, JedisExceptionConverter.INSTANCE).convert(results);
 
 		} catch (Exception ex) {
 			throw convertJedisAccessException(ex);
@@ -555,7 +555,7 @@ public class JedisConnection extends AbstractRedisConnection {
 
 	<T, R> JedisResult<T, R> newJedisResult(Response<T> response, Converter<T, R> converter, Supplier<R> defaultValue) {
 
-		return JedisResultBuilder.<T, R> forResponse(response).mappedWith(converter)
+		return JedisResultBuilder. forResponse(response).mappedWith(converter)
 				.convertPipelineAndTxResults(convertPipelineAndTxResults).mapNullTo(defaultValue).build();
 	}
 
@@ -683,7 +683,7 @@ public class JedisConnection extends AbstractRedisConnection {
 		try {
 			verification = getJedis(node);
 			verification.connect();
-			return verification.ping().equalsIgnoreCase("pong");
+			return "pong".equalsIgnoreCase(verification.ping());
 		} catch (Exception ignore) {
 			return false;
 		} finally {
@@ -728,8 +728,8 @@ public class JedisConnection extends AbstractRedisConnection {
 			operation.run();
 		}
 		catch (Exception ex) {
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(logMessage, ex);
+			if (logger.isDebugEnabled()) {
+				logger.debug(logMessage, ex);
 			}
 		}
 	}

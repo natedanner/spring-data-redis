@@ -344,7 +344,7 @@ public class LettuceClusterConnection extends LettuceConnection
 
 		Set<RedisClusterNode> nodes = topologyProvider.getTopology().getSlotServingNodes(slot);
 
-		return !nodes.isEmpty() ? nodes.iterator().next() : null;
+		return nodes.isEmpty() ? null : nodes.iterator().next();
 	}
 
 	@Override

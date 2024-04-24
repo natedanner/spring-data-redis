@@ -123,7 +123,7 @@ public abstract class AbstractConnectionIntegrationTests {
 
 	protected StringRedisConnection connection;
 	protected RedisSerializer<Object> serializer = RedisSerializer.java();
-	private RedisSerializer<String> stringSerializer = RedisSerializer.string();
+	private final RedisSerializer<String> stringSerializer = RedisSerializer.string();
 
 	private static final byte[] EMPTY_ARRAY = new byte[0];
 
@@ -652,9 +652,8 @@ public abstract class AbstractConnectionIntegrationTests {
 		final String expectedMessage = "msg";
 		final BlockingDeque<Message> messages = new LinkedBlockingDeque<>();
 
-		MessageListener listener = (message, pattern) -> {
+		MessageListener listener = (message, pattern) ->
 			messages.add(message);
-		};
 
 		Thread th = new Thread(() -> {
 			// sync to let the registration happen
@@ -674,7 +673,7 @@ public abstract class AbstractConnectionIntegrationTests {
 			// messages may be received if unsubscribing now.
 			// Connection.close in teardown
 			// will take care of unsubscribing.
-			if (!(ConnectionUtils.isAsync(connectionFactory))) {
+			if (!ConnectionUtils.isAsync(connectionFactory)) {
 				connection.getSubscription().unsubscribe();
 			}
 		});
@@ -719,7 +718,7 @@ public abstract class AbstractConnectionIntegrationTests {
 			// messages may be received if unsubscribing now.
 			// Connection.close in teardown
 			// will take care of unsubscribing.
-			if (!(ConnectionUtils.isAsync(connectionFactory))) {
+			if (!ConnectionUtils.isAsync(connectionFactory)) {
 				connection.getSubscription().pUnsubscribe(expectedPattern.getBytes());
 			}
 		});
@@ -784,9 +783,8 @@ public abstract class AbstractConnectionIntegrationTests {
 
 	@Test
 	public void testExecWithoutMulti() {
-		assertThatExceptionOfType(RedisSystemException.class).isThrownBy(() -> {
-			connection.exec();
-		});
+		assertThatExceptionOfType(RedisSystemException.class).isThrownBy(() ->
+			connection.exec());
 	}
 
 	@Test
@@ -4182,7 +4180,7 @@ public abstract class AbstractConnectionIntegrationTests {
 		}
 
 		public boolean passes() {
-			return (!connection.exists(key));
+			return !connection.exists(key);
 		}
 	}
 

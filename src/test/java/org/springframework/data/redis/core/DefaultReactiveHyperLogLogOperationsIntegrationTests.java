@@ -95,10 +95,9 @@ public class DefaultReactiveHyperLogLogOperationsIntegrationTests<K, V> {
 		hyperLogLogOperations.add(key2, value2, sharedValue).as(StepVerifier::create).expectNext(1L).verifyComplete();
 
 		hyperLogLogOperations.union(mergedKey, key1, key2).as(StepVerifier::create).expectNext(true).verifyComplete();
-		hyperLogLogOperations.size(mergedKey).as(StepVerifier::create).assertNext(actual -> {
+		hyperLogLogOperations.size(mergedKey).as(StepVerifier::create).assertNext(actual ->
 
-			assertThat(actual).isBetween(2L, 3L);
-		}).verifyComplete();
+			assertThat(actual).isBetween(2L, 3L)).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-602

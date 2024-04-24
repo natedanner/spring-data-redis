@@ -145,8 +145,8 @@ public class MicrometerTracingAdapter implements Tracing {
 
 		private Tracer.Span postProcessSpan(Observation observation) {
 
-			return !observation.isNoop() ? new MicrometerSpan(observation.observationConvention(observationConvention))
-					: NoOpSpan.INSTANCE;
+			return observation.isNoop() ? NoOpSpan.INSTANCE
+					: new MicrometerSpan(observation.observationConvention(observationConvention));
 		}
 	}
 
@@ -308,10 +308,8 @@ public class MicrometerTracingAdapter implements Tracing {
 		@Override
 		public Mono<TraceContext> getTraceContextLater() {
 
-			return Mono.deferContextual(Mono::justOrEmpty).filter((it) -> {
-				return it.hasKey(TraceContext.class) || it.hasKey(Observation.class)
-						|| it.hasKey(ObservationThreadLocalAccessor.KEY);
-			}).map((it) -> {
+			return Mono.deferContextual(Mono::justOrEmpty).filter(it -> it.hasKey(TraceContext.class) || it.hasKey(Observation.class)
+						|| it.hasKey(ObservationThreadLocalAccessor.KEY)).map(it -> {
 
 				if (it.hasKey(Observation.class)) {
 					return new MicrometerTraceContext(it.get(Observation.class));

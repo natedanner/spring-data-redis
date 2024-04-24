@@ -341,12 +341,10 @@ public class DefaultReactiveGeoOperationsIntegrationTests<K, V> {
 		geoOperations.add(key, POINT_ARIGENTO, member3).block();
 
 		geoOperations.radius(key, member3, 100_000).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual.getContent().getName()).isEqualTo(member3);
-				}) //
-				.consumeNextWith(actual -> {
-					assertThat(actual.getContent().getName()).isEqualTo(member1);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual.getContent().getName()).isEqualTo(member3)) //
+				.consumeNextWith(actual ->
+					assertThat(actual.getContent().getName()).isEqualTo(member1)) //
 				.verifyComplete();
 	}
 
@@ -363,12 +361,10 @@ public class DefaultReactiveGeoOperationsIntegrationTests<K, V> {
 		geoOperations.add(key, POINT_ARIGENTO, member3).block();
 
 		geoOperations.radius(key, member3, new Distance(100D, KILOMETERS)).as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
-					assertThat(actual.getContent().getName()).isEqualTo(member3);
-				}) //
-				.consumeNextWith(actual -> {
-					assertThat(actual.getContent().getName()).isEqualTo(member1);
-				}) //
+				.consumeNextWith(actual ->
+					assertThat(actual.getContent().getName()).isEqualTo(member3)) //
+				.consumeNextWith(actual ->
+					assertThat(actual.getContent().getName()).isEqualTo(member1)) //
 				.verifyComplete();
 	}
 

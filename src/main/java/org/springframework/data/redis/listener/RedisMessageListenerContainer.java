@@ -126,10 +126,10 @@ public class RedisMessageListenerContainer implements InitializingBean, Disposab
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	// whether the container has been initialized via afterPropertiesSet
-	private boolean afterPropertiesSet = false;
+	private boolean afterPropertiesSet;
 
 	// whether the TaskExecutor was created by the container
-	private boolean manageExecutor = false;
+	private boolean manageExecutor;
 
 	private long maxSubscriptionRegistrationWaitingTime = DEFAULT_SUBSCRIPTION_REGISTRATION_WAIT_TIME;
 
@@ -969,7 +969,7 @@ public class RedisMessageListenerContainer implements InitializingBean, Disposab
 
 	private void dispatchMessage(Collection<MessageListener> listeners, Message message, @Nullable byte[] pattern) {
 
-		byte[] source = (pattern != null ? pattern.clone() : message.getChannel());
+		byte[] source = pattern != null ? pattern.clone() : message.getChannel();
 		Executor executor = getRequiredTaskExecutor();
 
 		for (MessageListener messageListener : listeners) {
@@ -1084,7 +1084,7 @@ public class RedisMessageListenerContainer implements InitializingBean, Disposab
 	 * @author Mark Paluch
 	 * @since 2.7
 	 */
-	static class State {
+	static final class State {
 
 		private final boolean prepareListening;
 		private final boolean listening;
@@ -1272,9 +1272,8 @@ public class RedisMessageListenerContainer implements InitializingBean, Disposab
 		void eventuallyPerformSubscription(RedisConnection connection, BackOffExecution backOffExecution,
 				CompletableFuture<Void> subscriptionDone, Collection<byte[]> patterns, Collection<byte[]> channels) {
 
-			addSynchronization(new SynchronizingMessageListener.SubscriptionSynchronization(patterns, channels, () -> {
-				subscriptionDone.complete(null);
-			}));
+			addSynchronization(new SynchronizingMessageListener.SubscriptionSynchronization(patterns, channels, () ->
+				subscriptionDone.complete(null)));
 
 			doSubscribe(connection, patterns, channels);
 		}

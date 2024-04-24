@@ -192,21 +192,17 @@ public class StreamReceiverIntegrationTests {
 		messages.as(publisher -> StepVerifier.create(publisher, 0)) //
 				.thenRequest(1) //
 				.thenAwait(Duration.ofMillis(500)) //
-				.then(() -> {
-					reactiveRedisTemplate.opsForStream().add("my-stream", Collections.singletonMap("key", "value1")).subscribe();
-				}) //
+				.then(() ->
+					reactiveRedisTemplate.opsForStream().add("my-stream", Collections.singletonMap("key", "value1")).subscribe()) //
 				.expectNextCount(1) //
-				.then(() -> {
-					reactiveRedisTemplate.opsForStream().add("my-stream", Collections.singletonMap("key", "value2")).subscribe();
-				}) //
+				.then(() ->
+					reactiveRedisTemplate.opsForStream().add("my-stream", Collections.singletonMap("key", "value2")).subscribe()) //
 				.thenRequest(1) //
 				.thenAwait(Duration.ofMillis(500)) //
-				.then(() -> {
-					reactiveRedisTemplate.opsForStream().add("my-stream", Collections.singletonMap("key", "value3")).subscribe();
-				}).consumeNextWith(it -> {
+				.then(() ->
+					reactiveRedisTemplate.opsForStream().add("my-stream", Collections.singletonMap("key", "value3")).subscribe()).consumeNextWith(it ->
 
-					assertThat(it.getStream()).isEqualTo("my-stream");
-				}) //
+					assertThat(it.getStream()).isEqualTo("my-stream")) //
 				.thenCancel() //
 				.verify(Duration.ofSeconds(5));
 	}
@@ -294,7 +290,8 @@ public class StreamReceiverIntegrationTests {
 
 	static class LoginEvent {
 
-		String firstName, lastName;
+		String firstName;
+		String lastName;
 
 		LoginEvent(String firstName, String lastName) {
 			this.firstName = firstName;

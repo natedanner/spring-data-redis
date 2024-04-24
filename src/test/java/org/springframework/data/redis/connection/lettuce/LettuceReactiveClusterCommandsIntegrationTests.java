@@ -53,10 +53,9 @@ class LettuceReactiveClusterCommandsIntegrationTests extends LettuceReactiveClus
 
 		connection.clusterGetNodes().collectList() //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual).hasSizeGreaterThan(3);
-				}).verifyComplete();
+					assertThat(actual).hasSizeGreaterThan(3)).verifyComplete();
 	}
 
 	@Test // DATAREDIS-1150
@@ -67,10 +66,9 @@ class LettuceReactiveClusterCommandsIntegrationTests extends LettuceReactiveClus
 				.flatMap(it -> connection.clusterGetReplicas(it)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual).hasSize(1);
-				}).verifyComplete();
+					assertThat(actual).hasSize(1)).verifyComplete();
 	}
 
 	@Test // DATAREDIS-1150
@@ -78,10 +76,9 @@ class LettuceReactiveClusterCommandsIntegrationTests extends LettuceReactiveClus
 
 		connection.clusterGetMasterReplicaMap() //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual).hasSize(3);
-				}).verifyComplete();
+					assertThat(actual).hasSize(3)).verifyComplete();
 	}
 
 	@Test // DATAREDIS-1150
@@ -98,10 +95,9 @@ class LettuceReactiveClusterCommandsIntegrationTests extends LettuceReactiveClus
 
 		connection.clusterGetNodeForSlot(866) //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual.getPort()).isIn(7379, 7382);
-				}).verifyComplete();
+					assertThat(actual.getPort()).isIn(7379, 7382)).verifyComplete();
 	}
 
 	@Test // DATAREDIS-1150
@@ -109,10 +105,9 @@ class LettuceReactiveClusterCommandsIntegrationTests extends LettuceReactiveClus
 
 		connection.clusterGetNodeForKey(ByteBuffer.wrap("hello".getBytes())) //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual.getPort()).isIn(7379, 7382);
-				}).verifyComplete();
+					assertThat(actual.getPort()).isIn(7379, 7382)).verifyComplete();
 	}
 
 	@Test // DATAREDIS-1150
@@ -120,9 +115,8 @@ class LettuceReactiveClusterCommandsIntegrationTests extends LettuceReactiveClus
 
 		connection.clusterGetClusterInfo() //
 				.as(StepVerifier::create) //
-				.consumeNextWith(actual -> {
+				.consumeNextWith(actual ->
 
-					assertThat(actual.getSlotsAssigned()).isEqualTo(16384);
-				}).verifyComplete();
+					assertThat(actual.getSlotsAssigned()).isEqualTo(16384)).verifyComplete();
 	}
 }

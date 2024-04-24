@@ -718,16 +718,14 @@ public class LettuceReactiveZSetCommandsIntegrationTests extends LettuceReactive
 		connection.zSetCommands().zDiff(Arrays.asList(KEY_1_BBUFFER, KEY_2_BBUFFER)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).containsOnly(VALUE_3_BBUFFER);
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).containsOnly(VALUE_3_BBUFFER)).verifyComplete();
 
 		connection.zSetCommands().zDiffWithScores(Arrays.asList(KEY_1_BBUFFER, KEY_2_BBUFFER)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).containsOnly(new DefaultTuple(VALUE_3_BYTES, 3D));
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).containsOnly(new DefaultTuple(VALUE_3_BYTES, 3D))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // GH-2041
@@ -760,16 +758,14 @@ public class LettuceReactiveZSetCommandsIntegrationTests extends LettuceReactive
 		connection.zSetCommands().zInter(Arrays.asList(KEY_1_BBUFFER, KEY_2_BBUFFER)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).contains(VALUE_1_BBUFFER, VALUE_2_BBUFFER);
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).contains(VALUE_1_BBUFFER, VALUE_2_BBUFFER)).verifyComplete();
 
 		connection.zSetCommands().zInterWithScores(Arrays.asList(KEY_1_BBUFFER, KEY_2_BBUFFER), Arrays.asList(2D, 3D)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).contains(new DefaultTuple(VALUE_1_BYTES, 5D), new DefaultTuple(VALUE_2_BYTES, 10D));
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).contains(new DefaultTuple(VALUE_1_BYTES, 5D), new DefaultTuple(VALUE_2_BYTES, 10D))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-525
@@ -802,17 +798,15 @@ public class LettuceReactiveZSetCommandsIntegrationTests extends LettuceReactive
 		connection.zSetCommands().zUnion(Arrays.asList(KEY_1_BBUFFER, KEY_2_BBUFFER)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
-					assertThat(actual).contains(VALUE_1_BBUFFER, VALUE_2_BBUFFER, VALUE_3_BBUFFER);
-				}).verifyComplete();
+				.assertNext(actual ->
+					assertThat(actual).contains(VALUE_1_BBUFFER, VALUE_2_BBUFFER, VALUE_3_BBUFFER)).verifyComplete();
 
 		connection.zSetCommands().zUnionWithScores(Arrays.asList(KEY_1_BBUFFER, KEY_2_BBUFFER), Arrays.asList(2D, 3D)) //
 				.collectList() //
 				.as(StepVerifier::create) //
-				.assertNext(actual -> {
+				.assertNext(actual ->
 					assertThat(actual).contains(new DefaultTuple(VALUE_1_BYTES, 5D), new DefaultTuple(VALUE_2_BYTES, 10D),
-							new DefaultTuple(VALUE_3_BYTES, 9D));
-				}).verifyComplete();
+							new DefaultTuple(VALUE_3_BYTES, 9D))).verifyComplete();
 	}
 
 	@ParameterizedRedisTest // DATAREDIS-525

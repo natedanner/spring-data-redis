@@ -56,7 +56,7 @@ public class ScanIteration<T> implements Iterable<T> {
 	public ScanIteration(CursorId cursorId, @Nullable Collection<T> items) {
 
 		this.cursorId = cursorId;
-		this.items = (items != null ? new ArrayList<>(items) : Collections.emptyList());
+		this.items = items != null ? new ArrayList<>(items) : Collections.emptyList();
 	}
 
 	/**

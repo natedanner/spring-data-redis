@@ -55,10 +55,9 @@ public class JedisSentinelIntegrationTests extends AbstractConnectionIntegration
 
 	@Test
 	public void testEvalArrayScriptError() {
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() -> {
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
 			// Syntax error
-			connection.eval("return {1,2", ReturnType.MULTI, 1, "foo", "bar");
-		});
+			connection.eval("return {1,2", ReturnType.MULTI, 1, "foo", "bar"));
 	}
 
 	@Test // DATAREDIS-330

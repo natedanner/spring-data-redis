@@ -410,7 +410,7 @@ public class RedisCacheManager extends AbstractTransactionSupportingCacheManager
 	 * @author John Blum
 	 * @since 2.0
 	 */
-	public static class RedisCacheManagerBuilder {
+	public static final class RedisCacheManagerBuilder {
 
 		/**
 		 * Factory method returning a new {@literal Builder} used to create and configure a {@link RedisCacheManager} using
@@ -644,9 +644,9 @@ public class RedisCacheManager extends AbstractTransactionSupportingCacheManager
 			Assert.state(cacheWriter != null, "CacheWriter must not be null;"
 					+ " You can provide one via 'RedisCacheManagerBuilder#cacheWriter(RedisCacheWriter)'");
 
-			RedisCacheWriter resolvedCacheWriter = !CacheStatisticsCollector.none().equals(this.statisticsCollector)
-					? this.cacheWriter.withStatisticsCollector(this.statisticsCollector)
-					: this.cacheWriter;
+			RedisCacheWriter resolvedCacheWriter = CacheStatisticsCollector.none().equals(this.statisticsCollector)
+					? this.cacheWriter
+					: this.cacheWriter.withStatisticsCollector(this.statisticsCollector);
 
 			RedisCacheManager cacheManager = newRedisCacheManager(resolvedCacheWriter);
 

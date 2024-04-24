@@ -319,9 +319,8 @@ class ClusterCommandExecutorUnitTests {
 
 		executor.setMaxRedirects(4);
 
-		assertThatExceptionOfType(TooManyClusterRedirectionsException.class).isThrownBy(() -> {
-			executor.executeCommandOnSingleNode(COMMAND_CALLBACK, CLUSTER_NODE_1);
-		});
+		assertThatExceptionOfType(TooManyClusterRedirectionsException.class).isThrownBy(() ->
+			executor.executeCommandOnSingleNode(COMMAND_CALLBACK, CLUSTER_NODE_1));
 
 		verify(connection1, times(2)).theWheelWeavesAsTheWheelWills();
 		verify(connection3, times(2)).theWheelWeavesAsTheWheelWills();
@@ -483,7 +482,7 @@ class ClusterCommandExecutorUnitTests {
 	}
 
 	@SuppressWarnings("all")
-	static class CollectResultsInterruptedMultithreadedTestCase extends MultithreadedTestCase {
+	static final class CollectResultsInterruptedMultithreadedTestCase extends MultithreadedTestCase {
 
 		private static final CountDownLatch latch = new CountDownLatch(1);
 
